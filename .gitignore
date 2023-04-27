@@ -1,6 +1,6 @@
-
-my app
+*.a
 *.d
 *.o
-*.a
+bin/geometry
 .vscode
+main_test
