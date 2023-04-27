@@ -1,24 +1,25 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-#include <libgeometry/geometry.h>
-#include <libgeometry/libcalculate.h>
+#include <libgeometry/geom_parser.h>
+#include <libgeometry/lexer.h>
 
-int main()
+int main(int argc, char* argv[])
 {
-    double ar, perim;
-    char figure[64];
-
-    while (1) {
-        fgets(figure, 64, stdin);
-        if (figure[0] == 'q') {
-            return 0;
+    FILE* file = NULL;
+    if (argc < 2)
+        parser(stdin, NOT_FILE);
+    else if (argc == 2) {
+        if ((file = fopen(argv[1], "r")) == NULL) {
+            printf(RED_COLOR("Error") ": can't open file \e[1;35m\"%s\"\e[0m\n",
+                   argv[1]);
+        } else {
+            parser(file, _FILE);
+            fclose(file);
         }
-        if (circle(figure) == 0) {
-            perim = perimeter(figure);
-            ar = area(figure);
-
-            printf("\nArea : %f\n Perimeter :%f\n", ar, perim);
-        }
+    } else {
+        printf(MAGENTA_COLOR("Usage") ": %s <filename>\n", argv[0]);
     }
+
     return 0;
 }
